@@ -4,22 +4,40 @@
   "description": "Soen 387 Web-Enterprise application design",
   "main": "index.js",
   "scripts": {
-    "start": "node_modules/.bin/gulp serve"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/PtrWrangler/soen387web.git"
+    "start": "node ./node_modules/webpack-dev-server/bin/webpack-dev-server.js",
+    "test": "mocha --compilers js:babel-core/register --require ./test/test_helper.js --recursive ./test",
+    "test:watch": "npm run test -- --watch"
   },
   "author": "",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/PtrWrangler/soen387web/issues"
-  },
-  "homepage": "https://github.com/PtrWrangler/soen387web#readme",
   "devDependencies": {
-    "gulp": "^3.9.1",
-    "gulp-bower": "0.0.13",
-    "gulp-cli": "^1.2.2",
-    "gulp-webserver": "^0.9.1"
+    "babel-core": "^6.2.1",
+    "babel-loader": "^6.2.0",
+    "babel-preset-es2015": "^6.1.18",
+    "babel-preset-react": "^6.1.18",
+    "chai": "^3.5.0",
+    "chai-jquery": "^2.0.0",
+    "jquery": "^2.2.1",
+    "jsdom": "^8.1.0",
+    "mocha": "^2.4.5",
+    "react-addons-test-utils": "^0.14.7",
+    "webpack": "^1.12.9",
+    "webpack-dev-server": "^1.14.0"
+  },
+  "dependencies": {
+    "axios": "^0.14.0",
+    "babel-preset-stage-1": "^6.1.18",
+    "crypto-js": "^3.1.8",
+    "lodash": "^3.10.1",
+    "moment": "^2.16.0",
+    "react": "^0.14.3",
+    "react-datetime": "^2.6.2",
+    "react-dom": "^0.14.3",
+    "react-redux": "^4.0.0",
+    "react-router": "^2.0.0-rc5",
+    "redux": "^3.0.4",
+    "redux-form": "^4.1.3",
+    "redux-promise": "^0.5.3",
+    "toastr": "^2.1.2"
   }
 }
