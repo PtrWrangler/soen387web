@@ -161,63 +161,7 @@
 			$('.btn-group button').removeClass('active');
 			$('button[data-calendar-view="' + view + '"]').addClass('active');},
                     
-      events_source: function () { return [{
-           "id": 293,
-           "title": "Event 1",
-           "url": "EventCreation.html?event=293",
-           "class": "event-important",
-           "start": 1477627200000, // Milliseconds
-           "end": 1477713600000 // Milliseconds
-       }, {
-            "id": 292,
-            "title": "This is warning class event with very long title to check how it fits to evet in day view",
-            "url": "EventCreation.html?event=292",
-            "class": "event-warning",
-            "start": 1476799200000,
-            "end":   1476885600000
-        },{
-            "id": 297,
-            "title": "This is success event",
-            "url": "EventCreation.html?event=297",
-            "class": "event-success",
-            "start": 1477072800000,
-            "end":   1477080000000
-        },{
-            "id": 293,
-            "title": "This is an info event",
-            "url": "EventCreation.html?event=293",
-            "class": "event-info",
-            "start": 1475524800000,
-            "end":   1475528400000
-        }, {
-            "id": 548,
-            "title": "This is special event",
-            "url": "EventCreation.html?event=548",
-            "class": "event-special",
-            "start": 1476133200000,
-            "end":   1476306000000
-        }, {
-            "id": 54,
-            "title": "This is simple event",
-            "url": "EventCreation.html?event=54",
-            "class": "",
-            "start": 1476306000000,
-            "end":   1476392400000
-        }, {
-            "id": 532,
-            "title": "This is inverse event",
-            "url": "EventCreation.html?event=532",
-            "class": "event-inverse",
-            "start": 1476536400000,
-            "end":   1476572400000
-    },{
-           "id": 294,
-           "title": "Event 2",
-           "url": "EventCreation.html?event=294",
-           "class": "event-important",
-           "start": 1476590400000, // Milliseconds
-           "end": 1476763200000 // Milliseconds
-       }]; }
+      events_source: 'http://localhost:8001/listEvents',
     });
     
     $(document).ready(function() {

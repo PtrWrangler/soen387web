@@ -19,3 +19,12 @@ install all the dependencies (`npm install`) and start the server (`npm start`).
 
   $ npm install
   $ npm start
+
+### Running the test server 
+ (this can probably be combined with the other commands but i dont know how to do that yet)
+ You'll have to open another terminal, cd into BACKEND/server/ and run ('npm install express')
+ to install express needed to run the node.js server. Then run ('node server.js')
+
+ (from BACKEND/server/ in a  new terminal)
+ $ npm install express
+ $ node server.js
