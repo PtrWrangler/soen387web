@@ -117,6 +117,42 @@
                             <label for="endTime">End Time:</label>
                             <input type='text' class="form-control" id='endtimepicker' required/>
                         </div>
+                        
+                        <span style="color:red;">Dev Note: </span>start/end times chosen first, then available resources displayed
+                            <br />  <br />  
+                            <div class="lst-resource">
+                                <label for="ResRoom">Rooms to Reserve:</label><br />
+                                <select class="form-group list-wrapper" id="ResRoom" name="Rooms" size="5" multiple>
+                                    <option class="form-control" value="Board Room" >Board Room</option>
+                                    <option class="form-control" value="Classroom" >Classroom</option>
+                                    <option class="form-control" value="Bathroom">Bathroom</option>
+                                    <option class="form-control" value="Conference Room" selected>Conference Room</option>
+                                    <option class="form-control" value="Lunch Room" selected>Lunch Room</option>
+                                    <option class="form-control" value="Parking Lot" selected>Parking Lot</option>
+                                </select>
+                            </div>
+                            <div class="lst-resource">
+                                <label for="ResTool">Tools to Reserve:</label><br />
+                                <select class="form-group list-wrapper" id="ResTool" name="Tools" size="5" multiple>
+                                    <option class="form-control" value="Projector">Projector</option>
+                                    <option class="form-control" value="Smart board" selected>Smart board</option>
+                                    <option class="form-control" value="TV">TV</option>
+                                    <option class="form-control" value="Laptop">Laptop</option>
+                                    <option class="form-control" value="Office Chairs" selected>Office Chairs</option>
+                                    <option class="form-control" value="Radio" selected>Radio</option>
+                                </select>
+                            </div>
+                            <div class="lst-resource">
+                                <label for="ResEmp">People to Book</label><br />
+                                <select class="form-group list-wrapper" id="ResEmp" name="People" size="5" multiple>
+                                    <option class="form-control" value="President Roger" selected>President Roger</option>
+                                    <option class="form-control" value="IT guy Josh" selected>IT guy Josh</option>
+                                    <option class="form-control" value="Salesman Daniel">Salesman Daniel</option>
+                                    <option class="form-control" value="Consultant Steven">Consultant Steven</option>
+                                    <option class="form-control" value="Janitor Bob">Janitor Bob</option>
+                                    <option class="form-control" value="Finance Janice" selected>Finance Janice</option>
+                                </select>
+                            </div>
 
                         <script type="text/javascript">
                                 var result = null, tmp = [];
@@ -181,7 +217,14 @@
                                                    "url": "EventCreation.html?event=294",
                                                    "class": "event-important",
                                                    "start": 1476590400000, // Milliseconds
-                                                   "end": 1476763200000 // Milliseconds
+                                                   "end": 1476763200000, // Milliseconds
+                                                   "available_rooms": ["board room", "computer lab", "Auditorium"],
+                                                   "booked_rooms": ["conference room", "parking lot"],
+                                                   "available_tools": ["lamp", "chair", "projector", "computer", "book", "tv"],
+                                                   "booked_tools": ["drill", "ladder", "pencil"],
+                                                   "available_emps": ["janitor bob", "President Roger", "IT Guy Josh"],
+                                                   "booked_emps": ["Worker Steve", "Finance Janice", "test"],
+                                                   
                                                }];
 
                                 if (result != null) {
@@ -189,6 +232,16 @@
                                     document.getElementById("eventName").value = jsonObject.title;
                                     document.getElementById("starttimepicker").value = timeConverter(jsonObject.start);
                                     document.getElementById("endtimepicker").value = timeConverter(jsonObject.end);
+                                    var option = "";
+                                    var res_room = document.getElementById("ResRoom");
+                                    var res_tool = document.getElementById("ResTool");
+                                    var res_emp = document.getElementById("ResEmp");
+                                    option = document.createElement("option");
+                                    option.className = "form-control";
+                                    option.text = "Added via Javascript";
+                                    option.value = "Added via Javascript";
+                                    option.selected = true;
+                                    res_room.add(option, res_room[0]);
                                 }
 
                                 $(function () {
@@ -215,41 +268,7 @@
                                 }
                             </script>
 
-                            <span style="color:red;">Dev Note: </span>start/end times chosen first, then available resources displayed
-                            <br />  <br />  
-                            <div class="lst-resource">
-                                <label for="ResRoom">Rooms to Reserve:</label><br />
-                                <select class="form-group list-wrapper" id="ResRoom" name="Rooms" size="5" multiple>
-                                    <option class="form-control" value="Board Room" >Board Room</option>
-                                    <option class="form-control" value="Classroom" >Classroom</option>
-                                    <option class="form-control" value="Bathroom">Bathroom</option>
-                                    <option class="form-control" value="Conference Room" selected>Conference Room</option>
-                                    <option class="form-control" value="Lunch Room" selected>Lunch Room</option>
-                                    <option class="form-control" value="Parking Lot" selected>Parking Lot</option>
-                                </select>
-                            </div>
-                            <div class="lst-resource">
-                                <label for="ResTool">Tools to Reserve:</label><br />
-                                <select class="form-group list-wrapper" id="ResTool" name="Tools" size="5" multiple>
-                                    <option class="form-control" value="Projector">Projector</option>
-                                    <option class="form-control" value="Smart board" selected>Smart board</option>
-                                    <option class="form-control" value="TV">TV</option>
-                                    <option class="form-control" value="Laptop">Laptop</option>
-                                    <option class="form-control" value="Office Chairs" selected>Office Chairs</option>
-                                    <option class="form-control" value="Radio" selected>Radio</option>
-                                </select>
-                            </div>
-                            <div class="lst-resource">
-                                <label for="ResEmp">People to Book</label><br />
-                                <select class="form-group list-wrapper" id="ResEmp" name="People" size="5" multiple>
-                                    <option class="form-control" value="President Roger" selected>President Roger</option>
-                                    <option class="form-control" value="IT guy Josh" selected>IT guy Josh</option>
-                                    <option class="form-control" value="Salesman Daniel">Salesman Daniel</option>
-                                    <option class="form-control" value="Consultant Steven">Consultant Steven</option>
-                                    <option class="form-control" value="Janitor Bob">Janitor Bob</option>
-                                    <option class="form-control" value="Finance Janice" selected>Finance Janice</option>
-                                </select>
-                            </div>
+                            
                             <button type="submit" class="btn btn-default btn-submit" id="submit_button">Submit</button>
                             <button type="reset" class="btn btn-default">Reset</button>
                             <button type="button" class="btn btn-default btn-delete">Delete</button>

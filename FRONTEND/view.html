@@ -75,6 +75,9 @@
         <div class="container" style="padding: 80px 30px;">
             <div class="row">
                 <div class="col-lg-12">
+                    <span id="today-date">test</span>
+                    <h3></h3>
+                    <br />
                   <div class="pull-right form-inline">
               			<div class="btn-group">
               				<button class="btn btn-primary" data-calendar-nav="prev"><< Prev</button>
@@ -88,8 +91,14 @@
               				<button class="btn btn-warning" data-calendar-view="day">Day</button>
               			</div>
               		</div>
-
+                    <br />
+                    
+                    <h3 id="cal-date" class="page-header"></h3>
+                    
+                    <span id="test"></span>
+                    
                   <div id="calendar" style="padding-top: 60px"></div>
+                  
                 </div>
             </div>
 
@@ -140,10 +149,18 @@
     <script src="bower_components/moment/moment.js"></script>
     <script src="bower_components/underscore/underscore.js"></script>
     <script src="bower_components/bootstrap-calendar/js/calendar.js"></script>
+    <script src="js/functions.js"></script>
 
     <script type="text/javascript">
+    
     var calendar = $("#calendar").calendar({
       tmpl_path: "/bower_components/bootstrap-calendar/tmpls/",
+
+      onAfterViewLoad: function(view) {
+			$('.page-header h3').text(this.getTitle());
+			$('.btn-group button').removeClass('active');
+			$('button[data-calendar-view="' + view + '"]').addClass('active');},
+                    
       events_source: function () { return [{
            "id": 293,
            "title": "Event 1",
@@ -202,21 +219,44 @@
            "end": 1476763200000 // Milliseconds
        }]; }
     });
+    
+    $(document).ready(function() {
+        
+        document.getElementById('today-date').innerText = "Today is:  "+getDateToday();
+        
+        document.getElementById('cal-date').innerText = getCalendarTimestamp();
+        
+    });
 
+/**********************************************************/
+/*               CALENDAR BUTTON FUNCTIONS                */
+/**********************************************************/
+
+    var dateinfo;
+    
     $('.btn-group button[data-calendar-nav]').each(function() {
   		var $this = $(this);
   		$this.click(function() {
-  			calendar.navigate($this.data('calendar-nav'));
-  		});
+                    calendar.navigate($this.data('calendar-nav'));                   
+                        
+                    document.getElementById('cal-date').innerText = getCalendarTimestamp();
   	});
+    });
 
-  	$('.btn-group button[data-calendar-view]').each(function() {
+    $('.btn-group button[data-calendar-view]').each(function() {
   		var $this = $(this);
   		$this.click(function() {
-  			calendar.view($this.data('calendar-view'));
+                    calendar.view($this.data('calendar-view'));
+                    
+                    document.getElementById('cal-date').innerText = getCalendarTimestamp();
 
-  		});
-  	});
+        });
+    });
+/**********************************************************/
+/*           END CALENDAR BUTTON FUNCTIONS                */
+/**********************************************************/
+            
+   
     </script>
 
     <script>
