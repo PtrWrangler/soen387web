@@ -4,7 +4,8 @@
   "description": "Soen 387 Web-Enterprise application design",
   "main": "index.js",
   "scripts": {
-    "start": "node_modules/.bin/gulp serve"
+    "start": "node_modules/.bin/gulp serve",
+    "bootstrap": "node_modules/.bin/gulp bootstrap"
   },
   "repository": {
     "type": "git",
@@ -16,13 +17,13 @@
     "url": "https://github.com/PtrWrangler/soen387web/issues"
   },
   "homepage": "https://github.com/PtrWrangler/soen387web#readme",
-  "dependencies" : {
+  "dependencies": {
     "Soen387Final": "sorryeh/ERM387#develop"
   },
   "devDependencies": {
     "gulp": "^3.9.1",
     "gulp-bower": "0.0.13",
     "gulp-cli": "^1.2.2",
-    "gulp-webserver": "^0.9.1"
+    "gulp-nodemon": "^2.2.1"
   }
 }
