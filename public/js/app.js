@@ -1,6 +1,12 @@
-angular.module('erp', [])
+angular.module('erp', ['ngCookies'])
 .config(function($httpProvider) {
   $httpProvider.interceptors.push('authInterceptor');
+})
+.run(function($rootScope, $cookies, $window) {
+  $rootScope.logout = function() {
+    $cookies.remove('token');
+    $window.location.href = '/login.html';
+  };
 })
 .factory('authInterceptor', function($q, $window) {
   return {
