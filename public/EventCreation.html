@@ -40,8 +40,6 @@
     <!-- Bootstrap Core JavaScript -->
     <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 
-    <!-- CryptoJS -->
-    <script src="bower_components/crypto-js/crypto-js.js"></script>
      <!-- JS -->
     <script type="text/javascript" src="bower_components/moment/min/moment.min.js"></script>
     <!-- dateTimePicker -->
@@ -117,9 +115,9 @@
                             <label for="endTime">End Time:</label>
                             <input type='text' class="form-control" id='endtimepicker' required/>
                         </div>
-                        
+
                         <span style="color:red;">Dev Note: </span>start/end times chosen first, then available resources displayed
-                            <br />  <br />  
+                            <br />  <br />
                             <div class="lst-resource">
                                 <label for="ResRoom">Rooms to Reserve:</label><br />
                                 <select class="form-group list-wrapper" id="ResRoom" name="Rooms" size="5" multiple>
@@ -224,7 +222,7 @@
                                                    "booked_tools": ["drill", "ladder", "pencil"],
                                                    "available_emps": ["janitor bob", "President Roger", "IT Guy Josh"],
                                                    "booked_emps": ["Worker Steve", "Finance Janice", "test"],
-                                                   
+
                                                }];
 
                                 if (result != null) {
@@ -268,7 +266,7 @@
                                 }
                             </script>
 
-                            
+
                             <button type="submit" class="btn btn-default btn-submit" id="submit_button">Submit</button>
                             <button type="reset" class="btn btn-default">Reset</button>
                             <button type="button" class="btn btn-default btn-delete">Delete</button>
@@ -325,12 +323,12 @@
             }
             else
             {
-                alert($("#eventName").val() + '\n' + $("#eventURL").val() + 
-                    '\nStartTime: ' + $("#starttimepicker").val() + 
+                alert($("#eventName").val() + '\n' + $("#eventURL").val() +
+                    '\nStartTime: ' + $("#starttimepicker").val() +
                     '\nEndTime: ' +  $("#endtimepicker").val()  +
                     '\nRooms: ' +  $("#ResRoom").val()  +
                     '\nEquipments: ' +  $("#ResTool").val()  +
-                    '\nBook to: ' +  $("#ResEmp").val() 
+                    '\nBook to: ' +  $("#ResEmp").val()
 
                 );
             }
@@ -342,4 +340,3 @@
 </body>
 
 </html>
-    

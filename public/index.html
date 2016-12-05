@@ -29,7 +29,7 @@
 
 </head>
 
-<body>
+<body ng-app="erp">
 
     <!-- Navigation -->
     <nav class="navbar navbar-default navbar-fixed-top topnav" role="navigation">
@@ -73,21 +73,22 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
-                    <div class="intro-message">
+                    <div class="intro-message" ng-controller="LoginCtrl">
                         <h1>Login</h1>
                         <br/>
                         <br/>
-                        <form id="login" method="post" role="form" class="form-horizontal" action="">
+                        <form id="login" method="post" role="form" class="form-horizontal" ng-submit="login()">
+                            <div class="alert alert-danger col-sm-offset-2 col-sm-8" role="alert" ng-show="error">{{ error }}</div>
                             <div class="form-group">
                                 <label class="control-label col-sm-4" for="username">User Name :</label>
                                 <div class="col-sm-4">
-                                    <input type="text" class="form-control" id="username" name="username" placeholder="Username" value="" required>
+                                    <input type="text" class="form-control" id="username" name="username" placeholder="Username" value="" ng-model="username" required>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label for="password" class="control-label col-sm-4">Password :</label>
                                 <div class="col-sm-4">
-                                    <input type="password" class="form-control" id="password" name="password" placeholder="Password" value="" required>
+                                    <input type="password" class="form-control" id="password" name="password" placeholder="Password" value="" ng-model="password" required>
                                 </div>
                             </div>
                             <hr class="intro-divider">
@@ -144,32 +145,9 @@
     <!-- Bootstrap Core JavaScript -->
     <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 
-    <!-- CryptoJS -->
-    <script src="bower_components/crypto-js/crypto-js.js"></script>
-
-    <script>
-
-    $(document).ready(function() {
-        $("#login_button").click(function(event) {
-            // popup window for safari users
-            if ($("#password").val() == "" || $("#username").val() == "")
-            {
-                alert("Please fill in all fields");
-                event.preventDefault();
-            }
-            else
-            {
-                var password = $("#password").val();
-                // hash password using 256
-                var hashedPassword = CryptoJS.SHA256(password);
-                var message = "Password: " + password + "\n" + "Hashed: " + hashedPassword;
-                alert(message);
-            }
-
-        });
-    });
-
-    </script>
+    <!-- AngularJS -->
+    <script src="bower_components/angular/angular.min.js"></script>
+    <script src="js/app.js"></script>
 
 </body>
 

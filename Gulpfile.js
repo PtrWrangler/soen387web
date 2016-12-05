@@ -13,7 +13,7 @@ gulp.task('bootstrap-database', function(callback) {
   }
 
   // Create empty database file
-  var db = new sqlite3.Database('db-master/test.db', sqlite3.OPEN_READWRITE | sqlite3.OPEN_CREATE);
+  var db = new sqlite3.Database('db-master/test.db');
   models.sequelize.sync().then(function() {
     callback();
     db.close();

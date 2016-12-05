@@ -17,8 +17,8 @@
   ],
   "dependencies": {
     "bootstrap": "^3.3.7",
-    "crypto-js": "^3.1.7",
     "bootstrap-calendar": "^0.2.5",
-    "eonasdan-bootstrap-datetimepicker": "^4.17.43"
+    "eonasdan-bootstrap-datetimepicker": "^4.17.43",
+    "angular": "^1.5.9"
   }
 }

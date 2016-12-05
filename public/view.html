@@ -92,13 +92,13 @@
               			</div>
               		</div>
                     <br />
-                    
+
                     <h3 id="cal-date" class="page-header"></h3>
-                    
+
                     <span id="test"></span>
-                    
+
                   <div id="calendar" style="padding-top: 60px"></div>
-                  
+
                 </div>
             </div>
 
@@ -142,9 +142,6 @@
     <!-- Bootstrap Core JavaScript -->
     <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 
-    <!-- CryptoJS -->
-    <script src="bower_components/crypto-js/crypto-js.js"></script>
-
     <!-- Calendar -->
     <script src="bower_components/moment/moment.js"></script>
     <script src="bower_components/underscore/underscore.js"></script>
@@ -152,7 +149,7 @@
     <script src="js/functions.js"></script>
 
     <script type="text/javascript">
-    
+
     var calendar = $("#calendar").calendar({
       tmpl_path: "/bower_components/bootstrap-calendar/tmpls/",
 
@@ -160,7 +157,7 @@
 			$('.page-header h3').text(this.getTitle());
 			$('.btn-group button').removeClass('active');
 			$('button[data-calendar-view="' + view + '"]').addClass('active');},
-                    
+
       events_source: function () { return [{
            "id": 293,
            "title": "Event 1",
@@ -219,13 +216,13 @@
            "end": 1476763200000 // Milliseconds
        }]; }
     });
-    
+
     $(document).ready(function() {
-        
+
         document.getElementById('today-date').innerText = "Today is:  "+getDateToday();
-        
+
         document.getElementById('cal-date').innerText = getCalendarTimestamp();
-        
+
     });
 
 /**********************************************************/
@@ -233,12 +230,12 @@
 /**********************************************************/
 
     var dateinfo;
-    
+
     $('.btn-group button[data-calendar-nav]').each(function() {
   		var $this = $(this);
   		$this.click(function() {
-                    calendar.navigate($this.data('calendar-nav'));                   
-                        
+                    calendar.navigate($this.data('calendar-nav'));
+
                     document.getElementById('cal-date').innerText = getCalendarTimestamp();
   	});
     });
@@ -247,7 +244,7 @@
   		var $this = $(this);
   		$this.click(function() {
                     calendar.view($this.data('calendar-view'));
-                    
+
                     document.getElementById('cal-date').innerText = getCalendarTimestamp();
 
         });
@@ -255,21 +252,7 @@
 /**********************************************************/
 /*           END CALENDAR BUTTON FUNCTIONS                */
 /**********************************************************/
-            
-   
-    </script>
 
-    <script>
-
-    $(document).ready(function() {
-        $("#login_button").click(function() {
-            var password = $("#password").val();
-            // hash password using 256
-            var hashedPassword = CryptoJS.SHA256(password);
-            var message = "Password: " + password + "\n" + "Hashed: " + hashedPassword;
-            alert(message);
-        });
-    });
 
     </script>
 
