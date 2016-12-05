@@ -66,13 +66,66 @@ angular.module('erp', ['ngCookies'])
       events_source: function () {
         return data.map(function(i) {
           i.title = i.room_type.charAt(0).toUpperCase() + i.room_type.slice(1) + ' - ' + i.room_number;
-          i.url = 'event.html?id=' + i.id;
+          i.url = 'event.html?id=' + i.reservation_id;
           i.class = 'event-important';
           i.start = Date.parse(i.start_time);
           i.end = Date.parse(i.end_time);
           return i;
         });
       }
+    });
+  }
+})
+.controller('EventCtrl', function($http, $scope) {
+  var uri = URI(window.location.href);
+  var id = null;
+
+  // Time pickers
+  var startTime = $('#starttimepicker').datetimepicker();
+  var endTime = $('#endtimepicker').datetimepicker();
+
+  // Default objects
+  $scope.reservation = {
+    items: []
+  };
+  $scope.rooms = [];
+  $scope.items = [];
+  $scope.item_ids = [];
+
+  $scope.isUsed = function(item) {
+    var used_items = $scope.reservation.items.map(function(i) { return i.id; });
+    var common = used_items.filter(function(n) {
+      return $scope.item_ids.indexOf(n) != -1;
+    });
+
+    return common.indexOf(item) >= 0;
+  };
+
+  // Get all resources
+  $http.get('/inventory').then(function(response) {
+    $scope.resources = response.data.body;
+
+    angular.forEach($scope.resources, function(res) {
+      if (res.type == 'Room') $scope.rooms.push(res);
+    });
+
+    angular.forEach($scope.resources, function(res) {
+      if (res.type != 'Room') {
+        $scope.items.push(res);
+        $scope.item_ids.push(res.id);
+      }
+    });
+  });
+
+  if (uri.hasQuery('id')) {
+    id = parseInt(uri.search().split('=')[1]);
+
+    // Retrieve the reservation
+    $http.get('/reservations/' + id).then(function(response) {
+      $scope.reservation = response.data.body;
+      console.log($scope.reservation);
+      startTime.data("DateTimePicker").date(new Date(Date.parse($scope.reservation.start_time)));
+      endTime.data("DateTimePicker").date(new Date(Date.parse($scope.reservation.end_time)));
     });
   }
 });
