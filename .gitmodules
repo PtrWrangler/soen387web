@@ -1,3 +1,4 @@
 [submodule "backend"]
 	path = backend
 	url = https://github.com/sorryeh/ERM387
+	branch = develop
