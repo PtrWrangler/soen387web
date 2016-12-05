@@ -16,6 +16,9 @@
     "url": "https://github.com/PtrWrangler/soen387web/issues"
   },
   "homepage": "https://github.com/PtrWrangler/soen387web#readme",
+  "dependencies" : {
+    "Soen387Final": "file:backend"
+  },
   "devDependencies": {
     "gulp": "^3.9.1",
     "gulp-bower": "0.0.13",
