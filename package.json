@@ -17,7 +17,7 @@
   },
   "homepage": "https://github.com/PtrWrangler/soen387web#readme",
   "dependencies" : {
-    "Soen387Final": "file:backend"
+    "Soen387Final": "sorryeh/ERM387#develop"
   },
   "devDependencies": {
     "gulp": "^3.9.1",
