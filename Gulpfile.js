@@ -25,7 +25,7 @@ gulp.task('bootstrap', ['bootstrap-database'], function() {
 });
 
 gulp.task('bower', function() {
-  return bower({ cwd: 'FRONTEND' });
+  return bower({ cwd: 'public' });
 });
 
 gulp.task('serve', ['bower'], function() {
