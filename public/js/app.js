@@ -79,7 +79,7 @@ angular.module('erp', ['ngCookies'])
             return i;
           } else {
             i.title = i.type + ' - ' + i.id;
-            i.url = 'event.html?id=' + i.reservation_id;
+            i.url = 'changeEvents.html?id=' + i.reservation_id;
             i.class = 'event-important';
             i.start = i.date_start;
             i.end = i.date_end;
@@ -268,7 +268,7 @@ angular.module('erp', ['ngCookies'])
     $scope.cancelReservation = function() {
       console.log($scope);
 
-      $http.post('/rooms/cancel', {
+      $http.post('/inventory/cancel', {
         reservation_id: $scope.reservation.reservation_id,
         resource_id: $scope.reservation.resource_id
       }).then(function(response) {
