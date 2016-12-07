@@ -8,14 +8,14 @@ angular.module('erp', ['ngCookies'])
   $rootScope.logout = function() {
     $cookies.remove('token');
     $cookies.remove('userId');
-    $window.location.href = '/login.html';
+    $window.location.href = 'login.html';
   };
 })
 .factory('authInterceptor', function($q, $window) {
   return {
     responseError: function(rejection) {
       if (rejection.status == 403) {
-        $window.location.href = '/login.html';
+        $window.location.href = 'login.html';
       }
 
       return $q.reject(rejection);
@@ -39,7 +39,7 @@ angular.module('erp', ['ngCookies'])
 
       // Redirect to reservations
       $cookies.put('userId', response.data.body.userId);
-      $window.location.href = '/index.html';
+      $window.location.href = 'index.html';
     });
   };
 })
@@ -147,7 +147,7 @@ angular.module('erp', ['ngCookies'])
             // console.log('Could not add a reservation');
             return;
         }
-        $window.location.href = '/index.html';
+        $window.location.href = 'index.html';
       });
     } else if ($scope.itemsSelected !== null) {
       var itemId = parseInt($scope.itemsSelected, 10);
@@ -162,7 +162,7 @@ angular.module('erp', ['ngCookies'])
             // console.log('Could not add a reservation');
             return;
         }
-        $window.location.href = '/index.html';
+        $window.location.href = 'index.html';
       });
     } else if ($scope.itemsSelected !== null && $scope.roomsSelected !== null) {
       var itemId = parseInt($scope.itemsSelected);
@@ -180,7 +180,7 @@ angular.module('erp', ['ngCookies'])
           $scope.error = 'Error adding rooms and items';
           return;
         }
-        $window.location.href='/index.html';
+        $window.location.href='index.html';
       });
     }
   }
