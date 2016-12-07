@@ -3,8 +3,11 @@ angular.module('erp', ['ngCookies'])
   $httpProvider.interceptors.push('authInterceptor');
 })
 .run(function($rootScope, $cookies, $window) {
+  $rootScope.UID = $cookies.get('userId');
+
   $rootScope.logout = function() {
     $cookies.remove('token');
+    $cookies.remove('userId');
     $window.location.href = '/login.html';
   };
 })
@@ -19,7 +22,7 @@ angular.module('erp', ['ngCookies'])
     }
   };
 })
-.controller('LoginCtrl', function($rootScope, $http, $scope, $window) {
+.controller('LoginCtrl', function($cookies, $http, $scope, $window) {
   $scope.login = function() {
     if (!$scope.username && !$scope.password) {
       $scope.error = 'Please enter both username and password';
@@ -33,9 +36,9 @@ angular.module('erp', ['ngCookies'])
         $scope.error = 'Incorrect username and/or password';
         return;
       }
-      $rootScope.UID = response.data.body.userId;
 
       // Redirect to reservations
+      $cookies.put('userId', response.data.body.userId);
       $window.location.href = '/index.html';
     });
   };
@@ -130,7 +133,7 @@ angular.module('erp', ['ngCookies'])
   });
 
   $scope.reserve = function() {
-    if($scope.roomsSelected != null) {
+    if($scope.roomsSelected !== null) {
       console.log($rootScope.UID);
       var roomId = parseInt($scope.roomsSelected, 10);
       $http.post('/inventory/reserve', {
@@ -146,7 +149,7 @@ angular.module('erp', ['ngCookies'])
         }
         $window.location.href = '/index.html';
       });
-    } else if ($scope.itemsSelected != null) {
+    } else if ($scope.itemsSelected !== null) {
       var itemId = parseInt($scope.itemsSelected, 10);
       $http.post('/inventory/reserve', {
         resourceId: itemId,
@@ -161,7 +164,7 @@ angular.module('erp', ['ngCookies'])
         }
         $window.location.href = '/index.html';
       });
-    } else if ($scope.itemsSelected != null && $scope.roomsSelected != null) {
+    } else if ($scope.itemsSelected !== null && $scope.roomsSelected !== null) {
       var itemId = parseInt($scope.itemsSelected);
       var roomId = parseInt($scope.roomsSelected);
       $http.post('/rooms/reserve', {
@@ -170,7 +173,7 @@ angular.module('erp', ['ngCookies'])
         endTime: endTime.val(),
         user: $rootScope.UID,
         equipments: {
-          resourceId: itemId 
+          resourceId: itemId
         }
       }).then(function(response) {
         if (response.data.body.status === 'fail') {
