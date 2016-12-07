@@ -134,28 +134,28 @@ angular.module('erp', ['ngCookies'])
 
   $scope.reserve = function() {
     if($scope.roomsSelected !== null) {
-      console.log($rootScope.UID);
       var roomId = parseInt($scope.roomsSelected, 10);
       $http.post('/inventory/reserve', {
-        resourceId: roomId,
-        startTime: startTime.val(),
-        endTime: endTime.val(),
-        user: $rootScope.UID
+        resource_id: roomId,
+        date_start: startTime.val(),
+        date_end: endTime.val(),
+        user_id: $rootScope.UID
       }).then(function(response) {
         if (response.data.body.status === 'fail') {
             $scope.error = 'Error adding a reservation';
             // console.log('Could not add a reservation');
             return;
         }
-        $window.location.href = 'index.html';
+        console.log('made it this far');
+        // $window.location.href = 'index.html';
       });
     } else if ($scope.itemsSelected !== null) {
       var itemId = parseInt($scope.itemsSelected, 10);
       $http.post('/inventory/reserve', {
-        resourceId: itemId,
-        startTime: startTime.val(),
-        endTime: endTime.val(),
-        user: $rootScope.UID
+        resource_id: itemId,
+        date_start: startTime.val(),
+        date_end: endTime.val(),
+        user_id: $rootScope.UID
       }).then(function(response) {
         if (response.data.body.status === 'fail') {
             $scope.error = 'Error adding a reservation';
@@ -168,10 +168,10 @@ angular.module('erp', ['ngCookies'])
       var itemId = parseInt($scope.itemsSelected);
       var roomId = parseInt($scope.roomsSelected);
       $http.post('/rooms/reserve', {
-        reserveId: roomId,
-        startTime: startTime.val(),
-        endTime: endTime.val(),
-        user: $rootScope.UID,
+        resource_id: roomId,
+        date_start: startTime.val(),
+        date_end: endTime.val(),
+        user_id: $rootScope.UID,
         equipments: {
           resourceId: itemId
         }
