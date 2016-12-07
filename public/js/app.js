@@ -19,7 +19,7 @@ angular.module('erp', ['ngCookies'])
     }
   };
 })
-.controller('LoginCtrl', function($http, $scope, $window) {
+.controller('LoginCtrl', function($rootScope, $http, $scope, $window) {
   $scope.login = function() {
     if (!$scope.username && !$scope.password) {
       $scope.error = 'Please enter both username and password';
@@ -33,6 +33,7 @@ angular.module('erp', ['ngCookies'])
         $scope.error = 'Incorrect username and/or password';
         return;
       }
+      $rootScope.UID = response.data.body.userId;
 
       // Redirect to reservations
       $window.location.href = '/index.html';
@@ -43,7 +44,7 @@ angular.module('erp', ['ngCookies'])
   $scope.currentTime = moment().format("dddd, MMMM Do YYYY, h:mm a");
 
   $http.get('/reservations').then(function(response) {
-    loadCalendar(response.data.body);
+    loadCalendar(response.data.body.reservations);
   });
 
   $scope.navigate = function(direction) {
@@ -65,18 +66,29 @@ angular.module('erp', ['ngCookies'])
 
       events_source: function () {
         return data.map(function(i) {
-          i.title = i.room_type.charAt(0).toUpperCase() + i.room_type.slice(1) + ' - ' + i.room_number;
-          i.url = 'event.html?id=' + i.reservation_id;
-          i.class = 'event-important';
-          i.start = Date.parse(i.start_time);
-          i.end = Date.parse(i.end_time);
-          return i;
+          console.log(i.date_start);
+          if (i.type === 'Room') {
+            i.id = $scope.reservation_id;
+            i.title = i.room_type.charAt(0).toUpperCase() + i.room_type.slice(1) + ' - ' + i.room_number;
+            i.url = 'event.html?id=' + i.reservation_id;
+            i.class = 'event-important';
+            i.start = Date.parse(i.date_start);
+            i.end = Date.parse(i.date_end);
+            return i;
+          } else {
+            i.title = i.type + ' - ' + i.id;
+            i.url = 'event.html?id=' + i.reservation_id;
+            i.class = 'event-important';
+            i.start = Date.parse(i.start_time);
+            i.end = Date.parse(i.end_time);
+            return i;
+          }
         });
       }
     });
   }
 })
-.controller('EventCtrl', function($http, $scope) {
+.controller('EventCtrl', function($rootScope, $http, $scope, $cookies) {
   var uri = URI(window.location.href);
   var id = null;
 
@@ -103,7 +115,8 @@ angular.module('erp', ['ngCookies'])
 
   // Get all resources
   $http.get('/inventory').then(function(response) {
-    $scope.resources = response.data.body;
+    console.log(response);
+    $scope.resources = response.data.body.resources;
 
     angular.forEach($scope.resources, function(res) {
       if (res.type == 'Room') $scope.rooms.push(res);
@@ -116,6 +129,26 @@ angular.module('erp', ['ngCookies'])
       }
     });
   });
+
+  $scope.reserve = function() {
+    console.log();
+    $http.post('/inventory/reserve', {
+      resourceId: $scope.selected,
+      startTime: startTime.val(),
+      endTime: endTime.val(),
+      user: $rootScope.UID
+    }).then(function(response) {
+      if (response.data.body.status === 'fail') {
+          $scope.error = 'Error adding a reservation';
+          // console.log('Could not add a reservation');
+          return;
+      }
+      console.log('I added a new reservation');
+      // $window.location.href = '/index.html';
+    });
+  }
+
+  
 
   if (uri.hasQuery('id')) {
     id = parseInt(uri.search().split('=')[1]);
