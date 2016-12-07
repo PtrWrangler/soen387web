@@ -103,43 +103,6 @@
                 </div>
                   
 
-                    <!-- Create a New Event Form -->
-                    <form method="post" role="form" class="form-horizontal" ng-submit="reserve()">
-                        <!-- <div class="form-group">
-                            <label for="startTime">Start Time:</label>
-                            <p>{{reservation.start}}</p>
-                             <input type='hidden' class="form-control" id='starttimepicker' ng-model="reservation.start" value={{reservation.start}}required/>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="endTime">End Time:</label>
-                            <p>{{reservation.end}}</p>
-                             <input type='text' class="form-control" id='endtimepicker' ng-model="reservation.end" required/> 
-                        </div> -->
-
-                        <div class="row">
-                          <div class="form-group col-sm-3">
-                            <label for="ResRoom">Rooms to Reserve:</label><br />
-                            <select class="form-group list-wrapper" id="ResRoom" name="Rooms" size="5" ng-model="roomsSelected">
-                              <option class="form-control" ng-repeat="r in rooms" value="{{r.resource_id}}" style="text-transform:capitalize;">{{ r.type }} - {{ r.room_number }}</option>
-                            </select>
-                          </div>
-                          <div class="form-group col-sm-3">
-                            <label for="ResRoom">Tools to reserve:</label><br />
-                            <select class="form-group list-wrapper" id="ResRoom" name="Tools" size="5" ng-model="itemsSelected">
-                              <option class="form-control" ng-repeat="r in items" value="{{r.resource_id}}" style="text-transform:capitalize;">{{ inArray(item_ids, r.id) }}{{ r.type }} #{{ r.resource_id }}</option>
-                            </select>
-                          </div>
-                        </div>
-
-
-
-                            <button type="submit" class="btn btn-default btn-submit" id="submit_button">Submit</button>
-                            <button type="reset" class="btn btn-default">Reset</button>
-                            <button type="button" class="btn btn-default btn-delete">Delete</button>
-                        </div>
-                    </form>
-                </div>
             </div>
         </div>
         <!-- /.container -->

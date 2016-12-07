@@ -70,21 +70,19 @@ angular.module('erp', ['ngCookies'])
 
       events_source: function () {
         return data.map(function(i) {
+          i.id = i.reservation_id;
+          i.class = 'event-important';
+          i.start = i.date_start;
+          i.end = i.date_end;
+          i.url = 'changeEvents.html?id=' + i.reservation_id;
+
           if (i.type === 'Room') {
             i.title = i.room_type.charAt(0).toUpperCase() + i.room_type.slice(1) + ' - ' + i.room_number;
-            i.url = 'changeEvents.html?id=' + i.reservation_id;
-            i.class = 'event-important';
-            i.start = i.date_start;
-            i.end = i.date_end;
-            return i;
           } else {
             i.title = i.type + ' - #' + i.resource_id;
-            i.url = 'changeEvents.html?id=' + i.reservation_id;
-            i.class = 'event-important';
-            i.start = i.date_start;
-            i.end = i.date_end;
-            return i;
           }
+
+          return i;
         });
       }
     });
