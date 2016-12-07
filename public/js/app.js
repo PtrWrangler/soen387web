@@ -43,11 +43,11 @@ angular.module('erp', ['ngCookies'])
     });
   };
 })
-.controller('CalendarCtrl', function($http, $scope) {
+.controller('CalendarCtrl', function($http, $scope, $rootScope) {
   $scope.currentTime = moment().format("dddd, MMMM Do YYYY, h:mm a");
 
-  $http.get('/reservations').then(function(response) {
-    console.log(response.data.body.reservations);
+  $http.get('/users/' + $rootScope.UID).then(function(response) {
+    console.log(response);
     loadCalendar(response.data.body.reservations);
   });
 
