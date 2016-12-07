@@ -89,8 +89,26 @@ angular.module('erp', ['ngCookies'])
       }
     });
   }
+}).controller('PasswordCtrl', function($http, $scope, $rootScope, $window) {
+  $scope.changePass = function() {
+    if (!$scope.password) {
+      $scope.error = 'Please enter both username and password';
+    }
+
+    $http.post('/users/' + $rootScope.UID, {
+      user_password: $scope.password
+    }).then(function(response) {
+      if (response.data.status === false) {
+        $scope.error = "Who cares it's gonna pass";
+        return;
+      }
+
+      // Redirect to reservations
+      $window.location.href = 'index.html';
+    });
+  };
 })
-.controller('EventCtrl', function($rootScope, $http, $scope, $cookies, $window) {
+.controller('EventCtrl', function($rootScope, $http, $scope, $window) {
   var uri = URI(window.location.href);
   var id = null;
 
@@ -146,8 +164,8 @@ angular.module('erp', ['ngCookies'])
             // console.log('Could not add a reservation');
             return;
         }
-        console.log('made it this far');
-        // $window.location.href = 'index.html';
+        // console.log('made it this far');
+        $window.location.href = 'index.html';
       });
     } else if ($scope.itemsSelected !== null) {
       var itemId = parseInt($scope.itemsSelected, 10);
