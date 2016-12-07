@@ -78,7 +78,7 @@ angular.module('erp', ['ngCookies'])
             i.end = i.date_end;
             return i;
           } else {
-            i.title = i.type + ' - ' + i.id;
+            i.title = i.type + ' - #' + i.resource_id;
             i.url = 'changeEvents.html?id=' + i.reservation_id;
             i.class = 'event-important';
             i.start = i.date_start;
@@ -111,7 +111,7 @@ angular.module('erp', ['ngCookies'])
     });
   };
 })
-.controller('EventCtrl', function($rootScope, $http, $scope, $window) {
+.controller('EventCtrl', function($rootScope, $http, $scope, $window, $q) {
   var uri = URI(window.location.href);
   var id = null;
 
@@ -125,7 +125,7 @@ angular.module('erp', ['ngCookies'])
   $scope.rooms = [];
   $scope.items = [];
   $scope.item_ids = [];
-  $scope.itemsSelected = null;
+  $scope.itemsSelected = [];
   $scope.roomsSelected = null;
 
   $scope.isUsed = function(item) {
@@ -153,68 +153,24 @@ angular.module('erp', ['ngCookies'])
     });
   });
 
-  $scope.updateRoom = function() {
-    $scope.roomsSelected = parseInt($scope.roomsSelect, 10);
-    console.log($scope);
-  };
-
-  $scope.updateTools = function() {
-    $scope.itemsSelected = parseInt($scope.itemsSelect, 10);
-    console.log($scope);
-  }
-
   $scope.reserve = function() {
-    console.log($scope);
-    if($scope.roomsSelected !== null && $scope.itemsSelected === null) {
-      // var roomId = parseInt($scope.roomsSelected, 10);
-      $http.post('/inventory/reserve', {
-        resource_id: $scope.roomsSelected,
-        date_start: startTime.val(),
-        date_end: endTime.val(),
-        user_id: $rootScope.UID
-      }).then(function(response) {
-        if (response.data.body.status === 'fail') {
-            $scope.error = 'Error adding a reservation';
-            // console.log('Could not add a reservation');
-            return;
-        }
-        $window.location.href = 'index.html';
-      });
-    } else if ($scope.itemsSelected !== null && $scope.roomsSelected === null) {
-      // var itemId = parseInt($scope.itemsSelected, 10);
-      $http.post('/inventory/reserve', {
-        resource_id: $scope.itemsSelected,
-        date_start: startTime.val(),
-        date_end: endTime.val(),
-        user_id: $rootScope.UID
-      }).then(function(response) {
-        if (response.data.body.status === 'fail') {
-            $scope.error = 'Error adding a reservation';
-            // console.log('Could not add a reservation');
-            return;
-        }
-        $window.location.href = 'index.html';
-      });
-    } else if ($scope.itemsSelected !== null && $scope.roomsSelected !== null) {
-      // var itemId = parseInt($scope.itemsSelected);
-      // var roomId = parseInt($scope.roomsSelected);
-      $http.post('/rooms/reserve', {
-        room_id: $scope.roomsSelected,
-        date_start: startTime.val(),
-        date_end: endTime.val(),
-        user_id: $rootScope.UID,
-        equipments: [{
-          resource_id: $scope.itemsSelected
-        }]
-      }).then(function(response) {
-        if (response.data.body.status === 'fail') {
-          $scope.error = 'Error adding rooms and items';
-          return;
-        }
-        console.log('YOLO');
-        // $window.location.href='index.html';
-      });
+    var resourceList = $scope.itemsSelected;
+    if ($scope.roomsSelected !== null) {
+      resourceList.push($scope.roomsSelected);
     }
+
+    resourceList.map(function(r) {
+      return $http.post('/inventory/reserve', {
+        resource_id: parseInt(r),
+        date_start: startTime.val(),
+        date_end: endTime.val(),
+        user_id: $rootScope.UID
+      });
+    });
+
+    $q.all(resourceList).then(function() {
+      $window.location.href = 'index.html';
+    });
   }
 
   if (uri.hasQuery('id')) {

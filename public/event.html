@@ -98,13 +98,13 @@
                         <div class="row">
                           <div class="form-group col-sm-3">
                             <label for="ResRoom">Rooms to Reserve:</label><br />
-                            <select class="form-group list-wrapper" id="ResRoom" name="Rooms" size="5" ng-model="roomsSelect" ng-change="updateRoom()">
+                            <select class="form-group list-wrapper" id="ResRoom" name="Rooms" size="5" ng-model="roomsSelected">
                               <option class="form-control" ng-repeat="r in rooms" value="{{r.resource_id}}" style="text-transform:capitalize;">{{ r.type }} - {{ r.room_number }}</option>
                             </select>
                           </div>
                           <div class="form-group col-sm-3">
                             <label for="ResRoom">Tools to reserve:</label><br />
-                            <select class="form-group list-wrapper" id="ResRoom" name="Tools" size="5" ng-model="itemsSelect" ng-change="updateTools()">
+                            <select class="form-group list-wrapper" id="ResRoom" name="Tools" size="5" ng-model="itemsSelected" multiple>
                               <option class="form-control" ng-repeat="r in items" value="{{r.resource_id}}" style="text-transform:capitalize;">{{ inArray(item_ids, r.id) }}{{ r.type }} #{{ r.resource_id }}</option>
                             </select>
                           </div>
