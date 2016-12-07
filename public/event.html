@@ -102,7 +102,7 @@
                           <div class="form-group col-sm-3">
                             <label for="ResRoom">Tools to reserve:</label><br />
                             <select class="form-group list-wrapper" id="ResRoom" name="Tools" size="5">
-                              <option class="form-control" ng-repeat="r in items" ng-selected="isUsed(r.id)" value="{{r.id}}" style="text-transform:capitalize;">{{ inArray(item_ids, r.id) }}{{ r.type }} #{{ r.id }}</option>
+                              <option class="form-control" ng-model="itemsSelected" ng-repeat="r in items" ng-selected="isUsed(r.id)" value="{{r.id}}" style="text-transform:capitalize;">{{ inArray(item_ids, r.id) }}{{ r.type }} #{{ r.resource_id }}</option>
                             </select>
                           </div>
                         </div>
