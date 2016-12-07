@@ -61,7 +61,7 @@ angular.module('erp', ['ngCookies'])
 
   function loadCalendar(data) {
     $scope.calendar = $("#calendar").calendar({
-      tmpl_path: "/bower_components/bootstrap-calendar/tmpls/",
+      tmpl_path: "bower_components/bootstrap-calendar/tmpls/",
 
       onAfterViewLoad: function(view) {
         $scope.title = this.getTitle();
