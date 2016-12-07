@@ -79,32 +79,54 @@
     <a name="about"></a>
     <div style="padding-top:60px">
         <div class="container">
-            <div class="row">
-                <div class="col-lg-12" ng-controller="EventCtrl">
+            <div class="row" ng-controller="ChangeCtrl">
+                <div class="col-lg-12">
+                  <div class="col-lg-3 text-center">
+                    <h5>Start Time</h5>
+                    <p>{{reservation.start}}</p>
+                  </div>
+                  <div class="col-lg-6 text-center">
+                    <h5>Reservation Type</h5>
+                    <p>{{reservation.type}}</p>
+                  </div>
+                  <div class="col-lg-3 text-center">
+                    <h5>End Time</h5>
+                    <p>{{reservation.end}}</p>
+                  </div>
+                </div>
+                <div class="col-lg-12">
+                  <form method="post" role="form" class="form-horizontal" ng-submit="cancelReservation()">
+                    <input type="hidden" value="{{reservation.reservation_id}}" ng-model="reserId" />
+                    <input type="hidden" value="{{reservation.reservation.resource_id}}" ng-model="resouId" />
+                    <button type="submit" class="btn btn-default btn-submit" id="submit_button">Cancel Reservation</button>
+                  </form>
+                </div>
+                  
 
                     <!-- Create a New Event Form -->
                     <form method="post" role="form" class="form-horizontal" ng-submit="reserve()">
-                        <!-- <div> -->
-                        <div class="form-group">
+                        <!-- <div class="form-group">
                             <label for="startTime">Start Time:</label>
-                            <input type='text' class="form-control" id='starttimepicker' ng-model="reservation.start" required/>
+                            <p>{{reservation.start}}</p>
+                             <input type='hidden' class="form-control" id='starttimepicker' ng-model="reservation.start" value={{reservation.start}}required/>
                         </div>
 
                         <div class="form-group">
                             <label for="endTime">End Time:</label>
-                            <input type='text' class="form-control" id='endtimepicker' ng-model="reservation.end" required/>
-                        </div>
+                            <p>{{reservation.end}}</p>
+                             <input type='text' class="form-control" id='endtimepicker' ng-model="reservation.end" required/> 
+                        </div> -->
 
                         <div class="row">
                           <div class="form-group col-sm-3">
                             <label for="ResRoom">Rooms to Reserve:</label><br />
-                            <select class="form-group list-wrapper" id="ResRoom" name="Rooms" size="5" ng-model="roomsSelect" ng-change="updateRoom()">
+                            <select class="form-group list-wrapper" id="ResRoom" name="Rooms" size="5" ng-model="roomsSelected">
                               <option class="form-control" ng-repeat="r in rooms" value="{{r.resource_id}}" style="text-transform:capitalize;">{{ r.type }} - {{ r.room_number }}</option>
                             </select>
                           </div>
                           <div class="form-group col-sm-3">
                             <label for="ResRoom">Tools to reserve:</label><br />
-                            <select class="form-group list-wrapper" id="ResRoom" name="Tools" size="5" ng-model="itemsSelect" ng-change="updateTools()">
+                            <select class="form-group list-wrapper" id="ResRoom" name="Tools" size="5" ng-model="itemsSelected">
                               <option class="form-control" ng-repeat="r in items" value="{{r.resource_id}}" style="text-transform:capitalize;">{{ inArray(item_ids, r.id) }}{{ r.type }} #{{ r.resource_id }}</option>
                             </select>
                           </div>
@@ -115,7 +137,7 @@
                             <button type="submit" class="btn btn-default btn-submit" id="submit_button">Submit</button>
                             <button type="reset" class="btn btn-default">Reset</button>
                             <button type="button" class="btn btn-default btn-delete">Delete</button>
-                        <!-- </div> -->
+                        </div>
                     </form>
                 </div>
             </div>

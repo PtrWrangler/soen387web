@@ -72,7 +72,7 @@ angular.module('erp', ['ngCookies'])
         return data.map(function(i) {
           if (i.type === 'Room') {
             i.title = i.room_type.charAt(0).toUpperCase() + i.room_type.slice(1) + ' - ' + i.room_number;
-            i.url = 'event.html?id=' + i.reservation_id;
+            i.url = 'changeEvents.html?id=' + i.reservation_id;
             i.class = 'event-important';
             i.start = i.date_start;
             i.end = i.date_end;
@@ -89,14 +89,17 @@ angular.module('erp', ['ngCookies'])
       }
     });
   }
-}).controller('PasswordCtrl', function($http, $scope, $rootScope, $window) {
+})
+.controller('PasswordCtrl', function($http, $scope, $rootScope, $window) {
   $scope.changePass = function() {
     if (!$scope.password) {
       $scope.error = 'Please enter both username and password';
     }
 
     $http.post('/users/' + $rootScope.UID, {
-      user_password: $scope.password
+      user: {
+        user_password: $scope.password
+      }
     }).then(function(response) {
       if (response.data.status === false) {
         $scope.error = "Who cares it's gonna pass";
@@ -150,11 +153,22 @@ angular.module('erp', ['ngCookies'])
     });
   });
 
+  $scope.updateRoom = function() {
+    $scope.roomsSelected = parseInt($scope.roomsSelect, 10);
+    console.log($scope);
+  };
+
+  $scope.updateTools = function() {
+    $scope.itemsSelected = parseInt($scope.itemsSelect, 10);
+    console.log($scope);
+  }
+
   $scope.reserve = function() {
-    if($scope.roomsSelected !== null) {
-      var roomId = parseInt($scope.roomsSelected, 10);
+    console.log($scope);
+    if($scope.roomsSelected !== null && $scope.itemsSelected === null) {
+      // var roomId = parseInt($scope.roomsSelected, 10);
       $http.post('/inventory/reserve', {
-        resource_id: roomId,
+        resource_id: $scope.roomsSelected,
         date_start: startTime.val(),
         date_end: endTime.val(),
         user_id: $rootScope.UID
@@ -164,13 +178,12 @@ angular.module('erp', ['ngCookies'])
             // console.log('Could not add a reservation');
             return;
         }
-        // console.log('made it this far');
         $window.location.href = 'index.html';
       });
-    } else if ($scope.itemsSelected !== null) {
-      var itemId = parseInt($scope.itemsSelected, 10);
+    } else if ($scope.itemsSelected !== null && $scope.roomsSelected === null) {
+      // var itemId = parseInt($scope.itemsSelected, 10);
       $http.post('/inventory/reserve', {
-        resource_id: itemId,
+        resource_id: $scope.itemsSelected,
         date_start: startTime.val(),
         date_end: endTime.val(),
         user_id: $rootScope.UID
@@ -183,22 +196,23 @@ angular.module('erp', ['ngCookies'])
         $window.location.href = 'index.html';
       });
     } else if ($scope.itemsSelected !== null && $scope.roomsSelected !== null) {
-      var itemId = parseInt($scope.itemsSelected);
-      var roomId = parseInt($scope.roomsSelected);
+      // var itemId = parseInt($scope.itemsSelected);
+      // var roomId = parseInt($scope.roomsSelected);
       $http.post('/rooms/reserve', {
-        resource_id: roomId,
+        room_id: $scope.roomsSelected,
         date_start: startTime.val(),
         date_end: endTime.val(),
         user_id: $rootScope.UID,
-        equipments: {
-          resourceId: itemId
-        }
+        equipments: [{
+          resource_id: $scope.itemsSelected
+        }]
       }).then(function(response) {
         if (response.data.body.status === 'fail') {
           $scope.error = 'Error adding rooms and items';
           return;
         }
-        $window.location.href='index.html';
+        console.log('YOLO');
+        // $window.location.href='index.html';
       });
     }
   }
@@ -208,10 +222,67 @@ angular.module('erp', ['ngCookies'])
 
     // Retrieve the reservation
     $http.get('/reservations/' + id).then(function(response) {
-      $scope.reservation = response.data.body;
-      console.log($scope.reservation);
-      startTime.data("DateTimePicker").date(new Date(Date.parse($scope.reservation.start_time)));
-      endTime.data("DateTimePicker").date(new Date(Date.parse($scope.reservation.end_time)));
+      $scope.reservation = response.data.body.reservation;
+      $scope.reservation.start = new Date($scope.reservation.start_date);
+      $scope.reservation.end = new Date($scope.reservation.end_date);
+      // startTime.data("DateTimePicker").date(new Date(Date.parse($scope.reservation.start_time)));
+      // endTime.data("DateTimePicker").date(new Date(Date.parse($scope.reservation.end_time)));
+
     });
   }
+})
+.controller('ChangeCtrl', function($http, $scope, $rootScope, $window) {
+  var uri = URI(window.location.href);
+
+  $scope.items = [];
+  $scope.rooms = [];
+
+  if (uri.hasQuery('id')) {
+    id = parseInt(uri.search().split('=')[1]);
+
+    // Retrieve the reservation
+    $http.get('/reservations/' + id).then(function(response) {
+      console.log(response);
+      $scope.reservation = response.data.body;
+      $scope.reservation.start = new Date($scope.reservation.reservation.start_date);
+      $scope.reservation.end = new Date($scope.reservation.reservation.end_date);
+      $scope.reservation.type = $scope.reservation.reservation.type;
+      $scope.reservation.reservation_id = $scope.reservation.reservation.reservation_id;
+      $scope.reservation.resource_id = $scope.reservation.reservation.resource_id;
+
+      angular.forEach($scope.reservation.reservation, function(res) {
+        if (res.type == 'Room') $scope.rooms.push(res);
+      });
+
+      angular.forEach($scope.reservation.reservation, function(res) {
+        if (res.type != 'Room') {
+          $scope.items.push(res);
+          $scope.item_ids.push(res.resource_id);
+        }
+      });
+      // startTime.data("DateTimePicker").date(new Date(Date.parse($scope.reservation.start_time)));
+      // endTime.data("DateTimePicker").date(new Date(Date.parse($scope.reservation.end_time)));
+
+    });
+
+    $scope.cancelReservation = function() {
+      console.log($scope);
+
+      $http.post('/rooms/cancel', {
+        reservation_id: $scope.reservation.reservation_id,
+        resource_id: $scope.reservation.resource_id
+      }).then(function(response) {
+        if (response.data.body.status === 'fail') {
+            $scope.error = 'Error adding rooms and items';
+            return;
+          }
+          $window.location.href='index.html';
+      });
+
+    };
+  }
 });
+
+
+
+
